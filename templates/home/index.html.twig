@@ -1,20 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'H:/SitesInternet/ECF - Décembre 2022 - V3/fitpark/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'H:/SitesInternet/ECF - Décembre 2022 - V3/fitpark/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <main class="col-8 mt-3 mx-auto">
+        <section class="home" id="home">
+            {% if app.user %}
+                <h1 class="text-center fw-bold">Bienvenue {{ app.user.username }}</h1>
+            {% else %}
+                <h1 class="fw-bold text-success">Bienvenue sur Fit Park</h1>
+                <p class="text-success mt-5">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas, delectus culpa. Eligendi sed odio accusantium quod tempora? Labore doloremque sit laboriosam, eaque in officiis rem libero reprehenderit corporis. Voluptas sunt assumenda obcaecati dolor qui odio minus, sed autem explicabo? Omnis laboriosam blanditiis doloribus voluptate id fuga fugit minus, ipsam animi eum facere exercitationem dolores recusandae! Voluptatum quia repellat quam molestias quas, odio provident laborum aliquid modi delectus mollitia dolor doloribus enim ullam nostrum repudiandae non, nemo aut labore sapiente eaque odit accusantium iure tenetur! Nulla, blanditiis consequuntur voluptatem earum, distinctio dolorem iste a repudiandae, consectetur ex perferendis facilis iusto. Hic explicabo, obcaecati, optio ad ipsam natus vitae rerum fugit ab numquam laudantium. Nemo quasi eveniet ea commodi laboriosam adipisci autem. Labore enim dolore neque vero quae soluta unde adipisci error nemo deserunt ipsum officiis architecto minus laboriosam quis dicta quod voluptates sunt suscipit, ab aliquid a in recusandae illum. Culpa voluptatum, quasi reprehenderit numquam voluptates, assumenda facere blanditiis dolorem repudiandae soluta cupiditate nulla quos beatae, architecto et fugit placeat doloremque cum molestias quidem cumque magni! Ex a sit est eligendi non. Exercitationem tenetur unde pariatur placeat, quis error quidem aperiam corrupti similique mollitia veritatis cumque praesentium beatae natus! Placeat, soluta!</p>
+            {% endif %}
+        </section>
+    </main>
 {% endblock %}
