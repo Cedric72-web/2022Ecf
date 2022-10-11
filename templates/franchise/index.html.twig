@@ -1,0 +1,53 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Liste des franchise{% endblock %}
+
+{% block main %}
+    <h1 class="p-5 text-center">Liste des franchises</h1>
+    <div class="col-lg-10 mx-auto">
+        <a href="{{ path('franchise_nouvelle_franchise') }}" class="mx-5">
+            <button class="btn btn-primary my-5">Créer une nouvelle franchise</button>
+        </a>
+        <a href="{{ path('admin_index') }}" class="mx-5">
+            <button class="btn btn-success my-5">Retour au panel d'administration</button>
+        </a>
+        <table class="table col-lg-10">
+            <thead class="text-center">
+                <th>Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Propriétaire</th>
+                <th>Actions</th>
+            </thead>
+            <tbody class="text-center">
+                <pre>
+                </pre>
+                {% for franchise in franchises %}
+                    <tr>
+                        <td>{{ franchise.id }}</td>
+                        <td>{{ franchise.name }}</td>
+                        <td>{{ franchise.email }}</td>
+                        <td>
+                            {% if franchise.isIsActivate == 0 %}
+                                Non activée
+                            {% else %}
+                                Activée
+                            {% endif %}
+                            
+                        </td>
+                        <td></td>
+                        <td>
+                            <a href="{{ path('franchise_modifier_franchise', {'id': franchise.id}) }}" class="btn btn-warning mx-1">Modifier</a>
+                            <a href="{{ path('franchise_supprimer_franchise', {'id': franchise.id}) }}" class="btn btn-danger mx-1">Supprimer</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr class="text-center mx-auto">
+                        <td colspan=10 >Il n'y a pas de franchise</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
