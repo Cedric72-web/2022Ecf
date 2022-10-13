@@ -14,7 +14,7 @@ final class Version20221011051815 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Add created_add property in User Entity';
     }
 
     public function up(Schema $schema): void

@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\FranchiseRepository;
+use App\Entity\User;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: FranchiseRepository::class)]
@@ -16,7 +19,7 @@ class Franchise
     #[ORM\Column(length: 50)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 100, unique: true)]
     private ?string $email = null;
 
     #[ORM\Column(length: 40)]
@@ -25,8 +28,16 @@ class Franchise
     #[ORM\Column]
     private ?bool $is_activate = null;
 
-    #[ORM\ManyToOne(inversedBy: 'franchises')]
-    private ?user $id_user = null;
+    #[ORM\ManyToOne(inversedBy: 'franchises', targetEntity: User::class)]
+    private $id_user;
+
+    #[ORM\OneToMany(mappedBy: 'franchise', targetEntity: Partner::class)]
+    private Collection $partners;
+
+    public function __construct()
+    {
+        $this->partners = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -81,7 +92,7 @@ class Franchise
         return $this;
     }
 
-    public function getIdUser(): ?user
+    public function getIdUser()
     {
         return $this->id_user;
     }
@@ -89,6 +100,36 @@ class Franchise
     public function setIdUser(?user $id_user): self
     {
         $this->id_user = $id_user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Partner>
+     */
+    public function getPartners(): Collection
+    {
+        return $this->partners;
+    }
+
+    public function addPartner(Partner $partner): self
+    {
+        if (!$this->partners->contains($partner)) {
+            $this->partners->add($partner);
+            $partner->setFranchise($this);
+        }
+
+        return $this;
+    }
+
+    public function removePartner(Partner $partner): self
+    {
+        if ($this->partners->removeElement($partner)) {
+            // set the owning side to null (unless already changed)
+            if ($partner->getFranchise() === $this) {
+                $partner->setFranchise(null);
+            }
+        }
 
         return $this;
     }

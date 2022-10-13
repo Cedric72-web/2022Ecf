@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Entity\Trait\CreatedAtTrait;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -20,7 +19,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180, unique: true)]
+    #[ORM\Column(length: 180)]
     private ?string $username = null;
 
     #[ORM\Column]
@@ -31,19 +30,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     private $passwordHasher;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 100, unique: true)]
     private ?string $email = null;
 
     #[ORM\Column(type: "datetime")]
     private \DateTime $createdAt;
 
     #[ORM\OneToMany(mappedBy: 'id_user', targetEntity: Franchise::class)]
-    private Collection $franchises;
+    private $franchises;
+
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Partner::class)]
+    private Collection $partners;
 
     public function __construct(UserPasswordHasher $passwordHasher)
     {
         $this->passwordHasher = $passwordHasher;
         $this->franchises = new ArrayCollection();
+        $this->partners = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -126,10 +129,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Franchise>
-     */
-    public function getFranchises(): Collection
+    
+    public function getFranchises()
     {
         return $this->franchises;
     }
@@ -150,6 +151,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($franchise->getIdUser() === $this) {
                 $franchise->setIdUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Partner>
+     */
+    public function getPartners(): Collection
+    {
+        return $this->partners;
+    }
+
+    public function addPartner(Partner $partner): self
+    {
+        if (!$this->partners->contains($partner)) {
+            $this->partners->add($partner);
+            $partner->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removePartner(Partner $partner): self
+    {
+        if ($this->partners->removeElement($partner)) {
+            // set the owning side to null (unless already changed)
+            if ($partner->getOwner() === $this) {
+                $partner->setOwner(null);
             }
         }
 

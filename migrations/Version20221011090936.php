@@ -14,7 +14,7 @@ final class Version20221011090936 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Add franchise table';
+        return 'Add franchise Entity';
     }
 
     public function up(Schema $schema): void

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Franchise;
+use App\Entity\User;
 use App\Form\NewFranchiseType;
 use App\Form\EditFranchiseType;
 use App\Repository\FranchiseRepository;
