@@ -3,10 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\PartnerRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: PartnerRepository::class)]
-class Partner
+class Partner implements PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -17,7 +20,7 @@ class Partner
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $adress = null;
+    private ?string $address = null;
 
     #[ORM\Column(length: 5)]
     private ?string $zipcode = null;
@@ -28,8 +31,10 @@ class Partner
     #[ORM\Column(length: 100, unique: true)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 40)]
+    #[ORM\Column]
     private ?string $password = null;
+
+    private $passwordHasher;
 
     #[ORM\ManyToOne(inversedBy: 'partners')]
     #[ORM\JoinColumn(nullable: false)]
@@ -38,6 +43,15 @@ class Partner
     #[ORM\ManyToOne(inversedBy: 'partners')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Franchise $franchise = null;
+
+    #[ORM\Column]
+    private ?bool $is_activate = null;
+
+    public function __construct(UserPasswordHasher $passwordHasher)
+    {
+        $this->passwordHasher = $passwordHasher;
+        $this->partners = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -56,14 +70,14 @@ class Partner
         return $this;
     }
 
-    public function getAdress(): ?string
+    public function getAddress(): ?string
     {
-        return $this->adress;
+        return $this->address;
     }
 
-    public function setAdress(string $adress): self
+    public function setAddress(string $address): self
     {
-        $this->adress = $adress;
+        $this->address = $address;
 
         return $this;
     }
@@ -111,7 +125,7 @@ class Partner
 
     public function setPassword(string $password): self
     {
-        $this->password = $password;
+        $this->password = $this->passwordHasher->hashPassword($this, $password);
 
         return $this;
     }
@@ -136,6 +150,18 @@ class Partner
     public function setFranchise(?Franchise $franchise): self
     {
         $this->franchise = $franchise;
+
+        return $this;
+    }
+
+    public function isIsActivate(): ?bool
+    {
+        return $this->is_activate;
+    }
+
+    public function setIsActivate(bool $is_activate): self
+    {
+        $this->is_activate = $is_activate;
 
         return $this;
     }

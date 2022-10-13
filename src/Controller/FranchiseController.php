@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Franchise;
-use App\Entity\User;
 use App\Form\NewFranchiseType;
 use App\Form\EditFranchiseType;
 use App\Repository\FranchiseRepository;
@@ -11,6 +10,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/franchise', name: 'franchise_')]
@@ -26,9 +26,9 @@ class FranchiseController extends AbstractController
     }
 
     #[Route('/franchise/new', name: 'nouvelle_franchise')]
-    public function newFranchise(Request $request, ManagerRegistry $doctrine):Response
+    public function newFranchise(Request $request, UserPasswordHasherInterface $userPasswordHasher, ManagerRegistry $doctrine):Response
     {
-        $franchise = new Franchise();
+        $franchise = new Franchise($userPasswordHasher);
 
         $form = $this->createForm(NewFranchiseType::class, $franchise);
         $form->handleRequest($request);

@@ -7,9 +7,12 @@ use App\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: FranchiseRepository::class)]
-class Franchise
+class Franchise implements PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -22,8 +25,10 @@ class Franchise
     #[ORM\Column(length: 100, unique: true)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 40)]
+    #[ORM\Column]
     private ?string $password = null;
+
+    private $passwordHasher;
 
     #[ORM\Column]
     private ?bool $is_activate = null;
@@ -34,8 +39,9 @@ class Franchise
     #[ORM\OneToMany(mappedBy: 'franchise', targetEntity: Partner::class)]
     private Collection $partners;
 
-    public function __construct()
+    public function __construct(UserPasswordHasher $passwordHasher)
     {
+        $this->passwordHasher = $passwordHasher;
         $this->partners = new ArrayCollection();
     }
 
@@ -75,7 +81,7 @@ class Franchise
 
     public function setPassword(string $password): self
     {
-        $this->password = $password;
+        $this->password = $this->passwordHasher->hashPassword($this, $password);
 
         return $this;
     }
