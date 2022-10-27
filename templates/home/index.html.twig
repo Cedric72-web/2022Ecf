@@ -5,7 +5,7 @@
 {% block main %}
     {% if app.user %}
         <h1 class="text-center text-success fw-bold pt-5">Bienvenue {{ app.user.username }}</h1>
-        <h2 class="text-center text-success fw-bold pt-5">Vous avez le rôle  {{ app.user.roles[0] }}</h2>
+        <h2 class="text-center text-success fw-bold pt-5">Vous avez le rôle  {{ app.user.roles[1] }}</h2>
     {% else %}
         <!-- Start Home Section -->
         <section id="home">

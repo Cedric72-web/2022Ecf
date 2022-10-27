@@ -4,8 +4,8 @@
 
 {% block main %}
     <h1 class="p-5 text-center fw-bold">Panel d'administration</h1>
-    <div class="col-lg-10 d-flex justify-content-between text-center mx-auto my-5">
-        <div class="col user">
+    <div class="col-lg-10 d-flex flex-wrap justify-content-between text-center mx-auto my-5">
+        <div class="row col-10 mx-auto user">
             <h3 class="fw-bold">Utilisateurs</h3>
             <a href="{{ path('admin_utilisateurs') }}" role="button" class="nav-link my-5">
                 <div class="card rounded-pill col-4 m-3 mx-auto border-dark border border-2 bg-secondary bg-gradient text-dark">
@@ -15,32 +15,8 @@
                     </div>
                 </div>
             </a>
-            <a href="{{ path('admin_utilisateurs') }}" role="button" class="nav-link my-5">
-                <div class="card rounded-pill col-4 m-3 mx-auto border-dark border border-2 bg-secondary bg-gradient text-dark">
-                    <div class="card-body">
-                        <i class="bi bi-person-plus fs-2"></i>
-                        <p class="card-title fs-6">Ajouter un<br> utilisateur</p>
-                    </div>
-                </div>
-            </a>
-            <a href="{{ path('admin_utilisateurs') }}" role="button" class="nav-link my-5">
-                <div class="card rounded-pill col-4 m-3 mx-auto border-dark border border-2 bg-secondary bg-gradient text-dark">
-                    <div class="card-body">
-                        <i class="bi bi-person fs-2"></i>
-                        <p class="card-title fs-6">Gérer les<br> utilisateurs</p>
-                    </div>
-                </div>
-            </a>
-            <a href="{{ path('admin_utilisateurs') }}" role="button" class="nav-link my-5">
-                <div class="card rounded-pill col-4 m-3 mx-auto border-dark border border-2 bg-secondary bg-gradient text-dark">
-                    <div class="card-body">
-                        <i class="bi bi-person-dash fs-2"></i>
-                        <p class="card-title fs-6">Supprimer un<br> utilisateur</p>
-                    </div>
-                </div>
-            </a>
         </div>
-        <div class="col franchise">
+        <div class="row col-10 mx-auto franchise">
             <h3 class="fw-bold">Franchise</h3>
             <a href="{{ path('franchise_index') }}" role="button" class="nav-link my-5">
                 <div class="card rounded-pill col-4 m-3 mx-auto border-dark border border-2 bg-secondary bg-gradient text-dark">
@@ -50,32 +26,8 @@
                     </div>
                 </div>
             </a>
-            <a href="{{ path('admin_utilisateurs') }}" role="button" class="nav-link my-5">
-                <div class="card rounded-pill col-4 m-3 mx-auto border-dark border border-2 bg-secondary bg-gradient text-dark">
-                    <div class="card-body">
-                        <i class="bi bi-person-plus fs-2"></i>
-                        <p class="card-title fs-6">Ajouter une<br> franchise</p>
-                    </div>
-                </div>
-            </a>
-            <a href="{{ path('admin_utilisateurs') }}" role="button" class="nav-link my-5">
-                <div class="card rounded-pill col-4 m-3 mx-auto border-dark border border-2 bg-secondary bg-gradient text-dark">
-                    <div class="card-body">
-                        <i class="bi bi-person fs-2"></i>
-                        <p class="card-title fs-6">Gérer les<br> franchises</p>
-                    </div>
-                </div>
-            </a>
-            <a href="{{ path('admin_utilisateurs') }}" role="button" class="nav-link my-5">
-                <div class="card rounded-pill col-4 m-3 mx-auto border-dark border border-2 bg-secondary bg-gradient text-dark">
-                    <div class="card-body">
-                        <i class="bi bi-person-dash fs-2"></i>
-                        <p class="card-title fs-6">Supprimer une<br> franchise</p>
-                    </div>
-                </div>
-            </a>
         </div>
-        <div class="col salle">
+        <div class="row col-10 mx-auto salle">
             <h3 class="fw-bold">Salle</h3>
             <a href="{{ path('salle_index') }}" role="button" class="nav-link my-5">
                 <div class="card rounded-pill col-4 m-3 mx-auto border-dark border border-2 bg-secondary bg-gradient text-dark">
@@ -85,62 +37,14 @@
                     </div>
                 </div>
             </a>
-            <a href="{{ path('admin_utilisateurs') }}" role="button" class="nav-link my-5">
-                <div class="card rounded-pill col-4 m-3 mx-auto border-dark border border-2 bg-secondary bg-gradient text-dark">
-                    <div class="card-body">
-                        <i class="bi bi-person-plus fs-2"></i>
-                        <p class="card-title fs-6">Ajouter une<br> salle</p>
-                    </div>
-                </div>
-            </a>
-            <a href="{{ path('admin_utilisateurs') }}" role="button" class="nav-link my-5">
-                <div class="card rounded-pill col-4 m-3 mx-auto border-dark border border-2 bg-secondary bg-gradient text-dark">
-                    <div class="card-body">
-                        <i class="bi bi-person fs-2"></i>
-                        <p class="card-title fs-6">Gérer les<br> salles</p>
-                    </div>
-                </div>
-            </a>
-            <a href="{{ path('admin_utilisateurs') }}" role="button" class="nav-link my-5">
-                <div class="card rounded-pill col-4 m-3 mx-auto border-dark border border-2 bg-secondary bg-gradient text-dark">
-                    <div class="card-body">
-                        <i class="bi bi-person-dash fs-2"></i>
-                        <p class="card-title fs-6">Supprimer une<br> salle</p>
-                    </div>
-                </div>
-            </a>
         </div>
-        <div class="col module">
+        <div class="row col-10 mx-auto module">
             <h3 class="fw-bold">Module</h3>
-            <a href="{{ path('admin_utilisateurs') }}" role="button" class="nav-link my-5">
+            <a href="{{ path('module_index') }}" role="button" class="nav-link my-5">
                 <div class="card rounded-pill col-4 m-3 mx-auto border-dark border border-2 bg-secondary bg-gradient text-dark">
                     <div class="card-body">
                         <i class="bi bi-search fs-2"></i>
                         <p class="card-title fs-6">Vue des<br> modules</p>
-                    </div>
-                </div>
-            </a>
-            <a href="{{ path('admin_utilisateurs') }}" role="button" class="nav-link my-5">
-                <div class="card rounded-pill col-4 m-3 mx-auto border-dark border border-2 bg-secondary bg-gradient text-dark">
-                    <div class="card-body">
-                        <i class="bi bi-person-plus fs-2"></i>
-                        <p class="card-title fs-6">Ajouter un<br> module</p>
-                    </div>
-                </div>
-            </a>
-            <a href="{{ path('admin_utilisateurs') }}" role="button" class="nav-link my-5">
-                <div class="card rounded-pill col-4 m-3 mx-auto border-dark border border-2 bg-secondary bg-gradient text-dark">
-                    <div class="card-body">
-                        <i class="bi bi-person fs-2"></i>
-                        <p class="card-title fs-6">Gérer les<br> modules</p>
-                    </div>
-                </div>
-            </a>
-            <a href="{{ path('admin_utilisateurs') }}" role="button" class="nav-link my-5">
-                <div class="card rounded-pill col-4 m-3 mx-auto border-dark border border-2 bg-secondary bg-gradient text-dark">
-                    <div class="card-body">
-                        <i class="bi bi-person-dash fs-2"></i>
-                        <p class="card-title fs-6">Supprimer un<br> module</p>
                     </div>
                 </div>
             </a>

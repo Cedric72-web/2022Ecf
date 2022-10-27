@@ -19,7 +19,15 @@
                 <input type="text" name="_username" id="username" value="{{ last_username}}" class="form-control" required>
                 <label class="mt-3 form-label" for="password">Mot de passe</label>
                 <input type="password" name="_password" id="password" class="form-control" required>
-                <input type="hidden" name="_target_path" value="{{ path('admin_index') }}"/>
+                {% if is_granted('ROLE_ADMIN') %}
+                  <input type="hidden" name="_target_path" value="{{ path('admin_index') }}"/>
+                {% endif %}
+                {% if is_granted('ROLE_FRANCHISE') %}
+                  <input type="hidden" name="_target_path" value="{{ path('franchise_index') }}"/>
+                {% endif %}
+                {% if is_granted('ROLE_PARTNER') %}
+                  <input type="hidden" name="_target_path" value="{{ path('salle_index') }}"/>
+                {% endif %}
                 <button type="submit" class="btn btn-success mt-4 mx-auto d-block">Se connecter</button>
               </form>
             </div>

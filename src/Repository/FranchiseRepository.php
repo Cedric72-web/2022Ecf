@@ -21,6 +21,17 @@ class FranchiseRepository extends ServiceEntityRepository
         parent::__construct($registry, Franchise::class);
     }
 
+    public function getFranchiseByStatus($filters = null)
+    {
+        $query = $this->createQueryBuilder('status');
+
+        if($filters != null){
+            $query->andWhere('isIsActivate IN(:status')
+                ->setParameter(':status', array_values($filters));
+        }
+        return $query->getQuery()->getResult();
+    }
+
     public function save(Franchise $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
@@ -38,6 +49,8 @@ class FranchiseRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    
 
 //    /**
 //     * @return Franchise[] Returns an array of Franchise objects

@@ -19,7 +19,7 @@ class PartnerController extends AbstractController
     #[Route('/', name:'index')]
     public function index(PartnerRepository $partners): Response
     {
-        return $this->render('partner/index.html.twig', [
+        return $this->render('admin/partner/index.html.twig', [
             'partners' =>$partners->findAll()
         ]);
     }
@@ -43,6 +43,16 @@ class PartnerController extends AbstractController
         return $this->render('admin/newpartner.html.twig', [
             "form" => $form->createview(),
         ]);        
+    }
+
+    #[Route('/partner/view/{id}', name: 'voir_salle')]
+    public function viewFranchise(Partner $partner,PartnerRepository $repository)
+    {
+        $partners = $repository->findById($partner);
+        return $this->render('admin/viewpartner.html.twig', [
+            'partner' => $partner,
+            'partners' => $partners
+        ]);
     }
 
     #[Route('/partner/edit/{id}', name: 'modifier_salle')]

@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\PartnerRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PartnerRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
@@ -14,9 +16,11 @@ class Partner implements PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups('franchise:read')]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('franchise:read')]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
@@ -47,10 +51,14 @@ class Partner implements PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $is_activate = null;
 
+    #[ORM\ManyToMany(targetEntity: ModuleStructure::class, mappedBy: 'partner')]
+    private Collection $moduleStructures;
+
     public function __construct(UserPasswordHasher $passwordHasher)
     {
         $this->passwordHasher = $passwordHasher;
         $this->partners = new ArrayCollection();
+        $this->moduleStructures = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -162,6 +170,33 @@ class Partner implements PasswordAuthenticatedUserInterface
     public function setIsActivate(bool $is_activate): self
     {
         $this->is_activate = $is_activate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ModuleStructure>
+     */
+    public function getModuleStructures(): Collection
+    {
+        return $this->moduleStructures;
+    }
+
+    public function addModuleStructure(ModuleStructure $moduleStructure): self
+    {
+        if (!$this->moduleStructures->contains($moduleStructure)) {
+            $this->moduleStructures->add($moduleStructure);
+            $moduleStructure->addPartner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeModuleStructure(ModuleStructure $moduleStructure): self
+    {
+        if ($this->moduleStructures->removeElement($moduleStructure)) {
+            $moduleStructure->removePartner($this);
+        }
 
         return $this;
     }

@@ -10,33 +10,43 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: FranchiseRepository::class)]
+#[ApiResource]
 class Franchise implements PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups('franchise:read')]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups('franchise:read')]
     private ?string $name = null;
 
     #[ORM\Column(length: 100, unique: true)]
+    #[Groups('franchise:read')]
     private ?string $email = null;
 
     #[ORM\Column]
+    #[Groups('franchise:read')]
     private ?string $password = null;
 
     private $passwordHasher;
 
     #[ORM\Column]
+    #[Groups('franchise:read')]
     private ?bool $is_activate = null;
 
     #[ORM\ManyToOne(inversedBy: 'franchises', targetEntity: User::class)]
+    #[Groups('franchise:read')]
     private $id_user;
 
     #[ORM\OneToMany(mappedBy: 'franchise', targetEntity: Partner::class)]
+    #[Groups('franchise:read')]
     private Collection $partners;
 
     public function __construct(UserPasswordHasher $passwordHasher)

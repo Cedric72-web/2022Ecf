@@ -39,20 +39,42 @@ class PartnerRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Partner[] Returns an array of Partner objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    // public function findById($franchiseId): array
+    // {
+    //     $franchiseId = $this->getFranchise;
+    //     dump($franchiseId);
+    //     return $this->createQueryBuilder('partner')
+    //         ->andWhere('partner.id LIKE :search')
+    //         ->setParameter('search', '%' . $franchiseId . '%')
+    //         ->getQuery()
+    //         ->getResult();
+    // }
+   /**
+    * @return Partner[] Returns an array of Partner objects
+    */
+   public function findById($value): array
+   {
+       return $this->createQueryBuilder('p')
+           ->andWhere('p.franchise = :val')
+           ->setParameter('val', $value)
+           ->orderBy('p.id', 'ASC')
+           ->setMaxResults(10)
+           ->getQuery()
+           ->getResult()
+       ;
+   }
+
+   public function findByStatus($value): array
+   {
+       return $this->createQueryBuilder('p')
+           ->andWhere('p.franchise = :val')
+           ->setParameter('val', $value)
+           ->orderBy('p.id', 'ASC')
+           ->setMaxResults(10)
+           ->getQuery()
+           ->getResult()
+       ;
+   }
 
 //    public function findOneBySomeField($value): ?Partner
 //    {

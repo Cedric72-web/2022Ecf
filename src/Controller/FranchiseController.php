@@ -6,8 +6,10 @@ use App\Entity\Franchise;
 use App\Form\NewFranchiseType;
 use App\Form\EditFranchiseType;
 use App\Repository\FranchiseRepository;
+use App\Repository\PartnerRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -18,10 +20,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class FranchiseController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(FranchiseRepository $franchises): Response
+    public function index(FranchiseRepository $franchisesRepo, PartnerRepository $partnerRepo): Response
     {
-        return $this->render("franchise/index.html.twig", [
-            'franchises' => $franchises->findAll()
+        $partners = $partnerRepo->findAll();
+
+        // Récupération de toutes les salles
+        return $this->render("admin/franchise/index.html.twig", [
+            'franchises' => $franchisesRepo->findAll(),
+            'partners' => $partners
         ]);
     }
 
@@ -47,7 +53,7 @@ class FranchiseController extends AbstractController
     }
 
     #[Route('/franchise/edit/{id}', name: 'modifier_franchise')]
-    public function editUser(Franchise $franchise, Request $request, ManagerRegistry $doctrine)
+    public function editFranchise(Franchise $franchise, Request $request, ManagerRegistry $doctrine)
     {
         $form = $this->createForm(EditFranchiseType::class, $franchise);
         $form->handleRequest($request);
@@ -68,12 +74,27 @@ class FranchiseController extends AbstractController
     }
 
     #[Route('/franchise/delete/{id}', name: 'supprimer_franchise')]
-    public function deleteUser(Franchise $franchise, ManagerRegistry $doctrine): Response
+    public function deleteFranchise(Franchise $franchise, ManagerRegistry $doctrine): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $entityManager = $doctrine->getManager();
         $entityManager->remove($franchise);
         $entityManager->flush();
         return $this->redirectToRoute(('franchise_index'));
+    }
+
+    #[Route('/franchise/view/{id}', name: 'voir_franchise')]
+    public function viewFranchise(Franchise $franchise, PartnerRepository $repository, Request $request)
+    {
+        $status = $request->request->get('choicePartner');
+        dump($status);
+        if ($status) {
+            $partners = $repository->findByStatus($status);
+        }
+        $partners = $repository->findById($franchise);
+        return $this->render('admin/viewfranchise.html.twig', [
+            'franchise' => $franchise,
+            'partners' => $partners
+        ]);
     }
 }
